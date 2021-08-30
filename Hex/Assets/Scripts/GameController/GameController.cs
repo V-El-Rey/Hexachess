@@ -12,7 +12,7 @@ namespace GameController
 
         public void Start()
         {
-            _mapCellSpawnController = new MapCellSpawnController(10,10, demoPrefab);
+            _mapCellSpawnController = new MapCellSpawnController(9,5, demoPrefab);
             _mapCellSpawnController.SpawnMapCells();
         }
     }

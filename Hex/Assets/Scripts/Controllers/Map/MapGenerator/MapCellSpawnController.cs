@@ -34,47 +34,20 @@ namespace Controllers.Map.MapGenerator
 
         public void SpawnMapCells()
         {
-            for (int i = 0; i < _width; i += 2)
+            for (int i = 0; i < _width; i++)
             {
-                if (i > 0)
-                {
-                    _cellColumnStartPosition += _widthStep;
-                }
                 for (int j = 0; j < _height; j++)
                 {
-                    Object.Instantiate(_mapCellsArray[i, j].mapCellPrefab.gameObject);
-                    if (j == 0)
+                    var TempGO = Object.Instantiate(_mapCellsArray[i, j].mapCellPrefab.gameObject);
+
+                    if(i % 2 == 0)
                     {
-                        _currentCellPosition = _cellColumnStartPosition;
+                        TempGO.transform.position = new Vector3(i * 1.85f, j * 2.1f, 0.0f);
                     }
                     else
                     {
-                        _currentCellPosition += _heightStep;
+                        TempGO.transform.position = new Vector3(i * 1.85f, j * 2.1f + (2.1f / 2), 0.0f);
                     }
-
-                    _mapCellsArray[i, j].mapCellPrefab.transform.position = _currentCellPosition;
-                }
-            }
-            _currentCellPosition = Vector3.zero;
-            for (int i = 1; i < _width; i += 2)
-            {
-                if (i > 1)
-                {
-                    _cellColumnStartPositionEven += _widthStep;
-                }
-                for (int j = 0; j < _height; j++)
-                {
-                    Object.Instantiate(_mapCellsArray[i, j].mapCellPrefab.gameObject);
-                    if (j == 0)
-                    {
-                        _currentCellPosition = _cellColumnStartPositionEven;
-                    }
-                    else
-                    {
-                        _currentCellPosition += _heightStep;
-                    }
-
-                    _mapCellsArray[i, j].mapCellPrefab.transform.position = _currentCellPosition;
                 }
             }
         }
