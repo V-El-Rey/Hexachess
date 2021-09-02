@@ -24,12 +24,14 @@ namespace GameController
         public void Update()
         {
             //Почему-то вылазит OutOfRangeException;
-            // if (Input.GetKeyDown(KeyCode.A))
-            // {
-            //     _mapCreationController.CreateNewRoom(1);
-            //     //_mapCreationController.SpawnPlayer_Test();
-            //     Instantiate(demoPlayerPrefab, _mapCreationController.SpawnPlayer_Test(), quaternion.identity);
-            // }
+            
+             
+             // if (Input.GetKeyDown(KeyCode.A))
+             // {
+             //     _mapCreationController.CreateNewRoom(1);
+             //     //_mapCreationController.SpawnPlayer_Test();
+             //     Instantiate(demoPlayerPrefab, _mapCreationController.SpawnPlayer_Test(), quaternion.identity);
+             // }
         }
     }
 }

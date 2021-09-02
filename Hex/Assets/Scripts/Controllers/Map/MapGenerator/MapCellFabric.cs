@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using SceneViews.Map;
 using Struct.MapCellStruct;
 using UnityEngine;
@@ -14,6 +15,7 @@ namespace Controllers.Map.MapGenerator
         private MapCell[] _mapCellsArray;
         private MapCellView[] _mapCellViewsArray;
         private Sprite _water_hex = Resources.Load<Sprite>("hex_1");
+        private Sprite _rock_hex = Resources.Load<Sprite>("hex_rock");
         private Sprite _defaultSprite = Resources.Load<Sprite>("_defaultCell");
         public MapCellFabric(int width)
         {
@@ -28,8 +30,7 @@ namespace Controllers.Map.MapGenerator
         public MapCell[] CreateMapCells()
         {
             _mapCellsArray = new MapCell[_mapCellViewsArray.Length];
-            var playerSpawnGoodCells = new List<MapCell>();
-            
+
             for (int i = 0; i < _mapCellsArray.Length; i++)
             {
                 _mapCellsArray[i] = new MapCell();
@@ -50,12 +51,19 @@ namespace Controllers.Map.MapGenerator
                     mapCell.isWalkable = false;
                     mapCell.isTaken = true;
                 }
+            }
 
-                if (mapCell.isWalkable)
+            foreach (var mapCell in _mapCellsArray)
+            {
+                if (Random.Range(0, 100) > 95 && !mapCell.isTaken)
                 {
-                    playerSpawnGoodCells.Add(mapCell);
+                    mapCell.mapCellPrefab.Obstacle.sprite = _rock_hex;
+                    mapCell.isWalkable = false;
+                    mapCell.isTaken = true;
                 }
             }
+
+            var playerSpawnGoodCells = _mapCellsArray.Where(mapCell => mapCell.isWalkable).ToList();
 
             var playerSpawnIndex = Random.Range(0, playerSpawnGoodCells.Capacity);
             playerSpawnGoodCells[playerSpawnIndex].playerSpawnMarker = true;
@@ -71,6 +79,7 @@ namespace Controllers.Map.MapGenerator
             foreach (var variableMapCell in _mapCellsArray)
             {
                 variableMapCell.mapCellPrefab.spriteRenderer.sprite = _defaultSprite;
+                variableMapCell.mapCellPrefab.Obstacle.sprite = null;
                 variableMapCell.isWalkable = true;
                 variableMapCell.playerSpawnMarker = false;
                 variableMapCell.isTaken = false;
